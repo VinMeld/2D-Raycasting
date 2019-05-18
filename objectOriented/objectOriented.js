@@ -24,9 +24,9 @@ function draw() {
     wall.show();
   }
   particle.update(noise(xoff) * width, noise(yoff) * height);
-
-  particle.touch(walls);
-
+  //for(let i = 0; i < walls.length; i++){
+    particle.touch(walls[0]);
+  //}
   particle.show();
   particle.look(walls);
 

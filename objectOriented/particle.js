@@ -11,30 +11,42 @@ class Particle {
     this.pos.set(x, y);
   }
 
-  touch(walls) {
-    for (let i = 0; i < walls.length; i++) {
-      if (walls[i].a.x > walls[i].b.x && walls[i].a.y > walls[i].b.y) {
-        if (this.pos.x >= walls[i].a.x && this.pos.x <= walls[i].b.x && this.pos.y >= walls[i].a.y && this.pos.y <= walls[i].b.y) {
-          console.log("hi");
+  touch(wall) {
+    let radius = 10;
+    let touching = false;
+    let equation = Math.abs(this.pos.y - (wall.slope * this.pos.x + wall.intercept));
+    if (equation < radius) {
+      let domainCheck = false;
+      //Checking the domain
+      if (wall.a.x > wall.b.x) {
+        if (wall.a.x + radius > this.pos.x && this.pos.x > wall.b.x - radius) {
+          domainCheck = true;
         }
-      } else if (walls[i].a.x < walls[i].b.x && walls[i].a.y > walls[i].b.y ) {
-        if (this.pos.x >= walls[i].b.x && this.pos.x <= walls[i].a.x && this.pos.y >= walls[i].a.y && this.pos.y <= walls[i].b.y) { // Switched a.x to b.x
-          console.log("hi 2");
-
+      } else {
+        if (wall.b.x + radius > this.pos.x && this.pos.x > wall.a.x - radius) {
+          domainCheck = true;
         }
-      } else if (walls[i].a.x > walls[i].b.x && walls[i].a.y < walls[i].b.y ) {
+      }
 
-        if (this.pos.x >= walls[i].a.x && this.pos.x <= walls[i].b.x && this.pos.y >= walls[i].b.y && this.pos.y <= walls[i].a.y) { // Switched a.y to b.y
-          console.log("hi 3");
-        }
-      } else if (walls[i].a.x < walls[i].b.x && walls[i].a.y < walls[i].b.y ) {
-
-        if (this.pos.x >= walls[i].b.x && this.pos.x <= walls[i].a.x && this.pos.y >= walls[i].a.y && this.pos.y <= walls[i].b.y) { // Switched a.y to b.y and a.x to b.x
-          console.log("hi 4");
+      // Checking the range
+      if (domainCheck) {
+        if (wall.a.y > wall.b.y) {
+          if (wall.a.y + radius > this.pos.y && this.pos.x > wall.b.y - radius) {
+            touching = true;
+          }
+        } else {
+          if (wall.b.y + radius > this.pos.y && this.pos.y > wall.a.y - radius) {
+            touching = true;
+          }
         }
       }
     }
+    if (touching) {
+      console.log("hi");
+    }
   }
+
+
 
   look(walls) {
     for (let i = 0; i < this.rays.length; i++) {
