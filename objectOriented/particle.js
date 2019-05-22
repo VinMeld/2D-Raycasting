@@ -2,31 +2,32 @@ class Particle {
   constructor() {
     this.pos = createVector(width / 2, height / 2);
     this.vel = createVector(0, 0);
-    this.accel = createVector(0.005, 0.005);
+    this.radius = 4;
     this.rays = [];
     for (let a = 0; a < 360; a += 1) {
       this.rays.push(new Ray(this.pos, radians(a)));
     }
   }
 
-  update(x, y) {
-    //this.pos.set(x, y);
-    let mouse = createVector(x, y);
-    let dir = createVector();
-
-    dir.sub(mouse, this.pos);
-    dir.normalize();
-    this.accel.set(dir);
-    
-    console.log(this.accel);
-
-    this.vel.add(this.accel);
+  // Moving particle towards mouse
+  update() {
+    let dir = createVector().set(mouseX-this.pos.x, mouseY-this.pos.y);
+    this.vel.set(dir);
     this.vel.limit(0.85);
     this.pos.add(this.vel);
   }
 
+  //
+  updateFood(foodX, foodY) {
+    let dir = createVector().set(foodX-this.pos.x, foodY-this.pos.y);
+    this.vel.set(dir);
+    this.vel.limit(0.85);
+    this.pos.add(this.vel);
+  }
+
+  // Determines if particle is touching a boundary
   touch(wall) {
-    let radius = 4;
+    let radius = this.radius;
     let touching = false;
     let equation = Math.abs(this.pos.y - (wall.slope * this.pos.x + wall.intercept));
     if (equation < radius) {
@@ -63,8 +64,30 @@ class Particle {
     }
   }
 
+  // Increases particle size if touching boundary
+  resize(wall) {
+    if (this.touch(wall)) {
+      this.radius += 0.2;
+    }
+    if (this.radius > 100){
+      this.radius = 4;
+    }
+  }
 
+  // Displays particle on canvas
+  show(food) {
+    fill(255);
+    ellipse(this.pos.x, this.pos.y, this.radius);
+    for (let ray of this.rays) {
+      ray.show();
+    }
+    fill(255, 0, 0);
+    text(Math.round(this.pos.x) + ", " + Math.round(this.pos.y), this.pos.x, this.pos.y + 20);
+    //noStroke();
+    line(food.pos.x + 5, food.pos.y + 5, this.pos.x + this.radius, this.pos.y + this.radius);
+  }
 
+  // Draws rays from particle to boundaries
   look(walls) {
     for (let i = 0; i < this.rays.length; i++) {
       const ray = this.rays[i];
@@ -87,15 +110,5 @@ class Particle {
         line(this.pos.x, this.pos.y, closest.x, closest.y);
       }
     }
-  }
-
-  show() {
-    fill(255);
-    ellipse(this.pos.x, this.pos.y, 4);
-    for (let ray of this.rays) {
-      ray.show();
-    }
-    fill(255, 0, 0);
-    text(Math.round(this.pos.x) + ", " + Math.round(this.pos.y), this.pos.x, this.pos.y + 20);
   }
 }
