@@ -1,6 +1,8 @@
 class Particle {
   constructor() {
     this.pos = createVector(width / 2, height / 2);
+    this.vel = createVector(0, 0);
+    this.accel = createVector(0.005, 0.005);
     this.rays = [];
     for (let a = 0; a < 360; a += 1) {
       this.rays.push(new Ray(this.pos, radians(a)));
@@ -8,16 +10,28 @@ class Particle {
   }
 
   update(x, y) {
-    this.pos.set(x, y);
+    //this.pos.set(x, y);
+    let mouse = createVector(x, y);
+    let dir = createVector();
+
+    dir.sub(mouse, this.pos);
+    dir.normalize();
+    this.accel.set(dir);
+    
+    console.log(this.accel);
+
+    this.vel.add(this.accel);
+    this.vel.limit(0.85);
+    this.pos.add(this.vel);
   }
 
   touch(wall) {
-    let radius = 10;
+    let radius = 4;
     let touching = false;
     let equation = Math.abs(this.pos.y - (wall.slope * this.pos.x + wall.intercept));
     if (equation < radius) {
       let domainCheck = false;
-      //Checking the domain
+      // Checking the domain
       if (wall.a.x > wall.b.x) {
         if (wall.a.x + radius > this.pos.x && this.pos.x > wall.b.x - radius) {
           domainCheck = true;
@@ -41,8 +55,11 @@ class Particle {
         }
       }
     }
+
     if (touching) {
-      console.log("hi");
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -79,6 +96,6 @@ class Particle {
       ray.show();
     }
     fill(255, 0, 0);
-    text(Math.round(this.pos.x) + " " + Math.round(this.pos.y), this.pos.x, this.pos.y + 20);
+    text(Math.round(this.pos.x) + ", " + Math.round(this.pos.y), this.pos.x, this.pos.y + 20);
   }
 }

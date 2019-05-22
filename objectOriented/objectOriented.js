@@ -1,5 +1,5 @@
 // Declaring variables
-let walls = [], ray, particle = [], xoff = 0, yoff = 10000;
+let walls = [], food, ray, particle = [], xoff = 0, yoff = 10000, dir = 1;
 
 function setup() {
   createCanvas(400, 400);
@@ -16,21 +16,40 @@ function setup() {
   walls.push(new Boundary(width, height, 0, height));
   walls.push(new Boundary(0, height, 0, 0));
   particle = new Particle();
+   x1 = random(width);
+   x2 = random(width);
+   y1 = random(height);
+   y2 = random(height);
+  food = new Food(x1, y1, x2, y2);
 }
 
 function draw() {
   background(0);
+
   for (let wall of walls) {
     wall.show();
   }
-  particle.update(noise(xoff) * width, noise(yoff) * height);
-  //for(let i = 0; i < walls.length; i++){
-    particle.touch(walls[0]);
-  //}
+
+  let pathX = mouseX;
+  let pathY = mouseY;
+  //console.log(Math.round(pathX) + ", " + Math.round(pathY));
+  for (let i = 0; i < walls.length; i++){
+    if (particle.touch(walls[i])) {
+        pathX = random(width);
+        pathY = random(height);
+      //xoff *= -0.1;
+      //yoff *= -0.1;
+    }
+  }
+  particle.update(pathX, pathY);
   particle.show();
   particle.look(walls);
 
+/*
+  food.show();
+  food.update();
+*/
 
-  xoff += 0.01;
-  yoff += 0.01;
+  //xoff += 0.01;
+  //yoff += 0.01;
 }
