@@ -30,7 +30,13 @@ function draw() {
     wall.show();
   }
 
+
+  if(domain === true) {
   particle.update();
+  }
+  else {
+    particle.updateFood(food.pos1.x,food.pos1.y);
+  }
 
   for (let i = 0; i < walls.length; i++){
     particle.resize(walls[i]);
