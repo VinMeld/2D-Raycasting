@@ -22,11 +22,7 @@ class Food extends Particle {
     this.poi.y = (this.m * this.poi.x) - this.b;
     domain = false;
 
-    /*
-    pos1 is food position
-    pos is particle position
-    wall.a is wall point 1
-    wall.b is wall point 2
+
 
     if(wall.a.x < this.poi.x && wall.b.x > this.poi.x || wall.b.x < this.poi.x && wall.a.x > this.poi.x){
       if(wall.a.y < this.poi.y && wall.b.y > this.poi.y || wall.b.y < this.poi.y && wall.a.y > this.poi.y){
@@ -37,7 +33,7 @@ class Food extends Particle {
           }
         }
       }
-      */
+
 
   }
 }
