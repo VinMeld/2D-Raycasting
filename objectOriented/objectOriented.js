@@ -29,7 +29,7 @@ function draw() {
     walls[i].show();
     particle.resize(walls[i]);
     if (!food.see(particle, walls[i])) {
-      //particle.updateFood(food.pos.x, food.pos.y);
+    //  particle.updateFood(food.pos.x, food.pos.y);
     } else {
       particle.update();
     }

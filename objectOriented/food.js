@@ -21,7 +21,7 @@ class Food {
     this.b = this.pos.y - (this.m * this.pos.x);
     text("Equation: " + Math.round(this.m) + ", " + Math.round(this.b), width/2, width/2);
     this.poi.x = (wall.intercept - this.b) / (this.m - wall.slope);
-    this.poi.y = (this.m * this.poi.x) - this.b;
+    this.poi.y = (this.m * this.poi.x) + this.b;
     fill(255);
     text("POI: (" + Math.round(this.poi.x) + ", " + Math.round(this.poi.y) + ")", this.poi.x, this.poi.y + 10);
     if ((wall.a.x < this.poi.x && wall.b.x > this.poi.x || wall.b.x < this.poi.x && wall.a.x > this.poi.x) &&
