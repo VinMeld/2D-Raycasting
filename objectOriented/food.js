@@ -1,14 +1,13 @@
-class Food extends Particle {
+class Food {
   constructor(x1, y1) {
     this.poi = createVector(0, 0);
-    this.pos1 = createVector(x1, y1);
-    this.m = (this.pos.y - this.pos1.y+10) / (this.pos.x - this.pos1.x+10)
-    this.b = this.pos1.y - (this.m * this.pos1.x)
+    this.pos = createVector(x1, y1);
+
   }
 
   // Displays food on canvas
   show() {
-    rect(this.pos1.x, this.pos1.y, 10, 10);
+    rect(this.pos.x, this.pos.y, 10, 10);
   }
 
   //
@@ -16,24 +15,21 @@ class Food extends Particle {
     this.pos.set(x, y);
   }
 
-  //
-  see(ray) { //(b-b/m-m)
-    this.poi.x = (this.intercept - this.b) / (this.m - this.slope);
+  // Determines if particle can see food
+  see(particle, wall) { //(b-b/m-m)
+    this.m = (particle.pos.y - this.pos.y) / (particle.pos.x - this.pos.x);
+    this.b = this.pos.y - (this.m * this.pos.x);
+    text("Equation: " + Math.round(this.m) + ", " + Math.round(this.b), width/2, width/2);
+    this.poi.x = (wall.intercept - this.b) / (this.m - wall.slope);
     this.poi.y = (this.m * this.poi.x) - this.b;
-    domain = false;
-
-
-
-    if(wall.a.x < this.poi.x && wall.b.x > this.poi.x || wall.b.x < this.poi.x && wall.a.x > this.poi.x){
-      if(wall.a.y < this.poi.y && wall.b.y > this.poi.y || wall.b.y < this.poi.y && wall.a.y > this.poi.y){
-        if(this.pos.y < this.poi.y && this.pos1.y > this.poi.y || this.pos1.y < this.poi.y && this.pos.y > this.poi.y){
-          if(this.pos.x < this.poi.x && this.pos1.x > this.poi.x || this.pos1.x < this.poi.x && this.pos.x > this.poi.x){
-            domain = true;
-            }
-          }
-        }
-      }
-
-
+    fill(255);
+    text("POI: (" + Math.round(this.poi.x) + ", " + Math.round(this.poi.y) + ")", this.poi.x, this.poi.y + 10);
+    if ((wall.a.x < this.poi.x && wall.b.x > this.poi.x || wall.b.x < this.poi.x && wall.a.x > this.poi.x) &&
+        (wall.a.y < this.poi.y && wall.b.y > this.poi.y || wall.b.y < this.poi.y && wall.a.y > this.poi.y) &&
+        (particle.pos.y < this.poi.y && this.pos.y > this.poi.y || this.pos.y < this.poi.y && particle.pos.y > this.poi.y) &&
+        (particle.pos.x < this.poi.x && this.pos.x > this.poi.x || this.pos.x < this.poi.x && particle.pos.x > this.poi.x)) {
+      return true;
+    }
+    return false;
   }
 }

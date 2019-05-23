@@ -17,35 +17,30 @@ function setup() {
   walls.push(new Boundary(width, height, 0, height));
   walls.push(new Boundary(0, height, 0, 0));
   particle = new Particle();
-   let x = random(width);
-   let y = random(height);
-  food = new Food(x, y);
+
+  food = new Food(random(width), random(height), particle);
 }
 
 // Continuously animates code
 function draw() {
   background(0);
 
-  for (let wall of walls) { // Move to below for loop?
-    wall.show();
-  }
-
-
-  if(domain === true) {
-  particle.update();
-  }
-  else {
-    particle.updateFood(food.pos1.x,food.pos1.y);
-  }
-
   for (let i = 0; i < walls.length; i++){
+    walls[i].show();
     particle.resize(walls[i]);
+    if (!food.see(particle, walls[i])) {
+      //particle.updateFood(food.pos.x, food.pos.y);
+    } else {
+      particle.update();
+    }
   }
+
+  food.show();
+
+  particle.update();
 
   particle.show(food);
   particle.look(walls);
-
-  food.show();
 
   xoff += 0.01;
   yoff += 0.01;
