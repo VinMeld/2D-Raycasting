@@ -12,6 +12,9 @@ function setup() {
     walls[i] = new Boundary(x1, y1, x2, y2);
   }
 
+  let g = 255;
+  let b = 255;
+
   walls.push(new Boundary(0, 0, width, 0));
   walls.push(new Boundary(width, 0, width, height));
   walls.push(new Boundary(width, height, 0, height));
@@ -38,21 +41,27 @@ function draw() {
     }
   }
 
-  if (seeFood === (walls.length - 4)) {
-    particle.update(food.pos.x, food.pos.y);
-  } else {
-    particle.update(mouseX, mouseY);
-  }
 
   if (food.pos.x === particle.pos.x && food.pos.y === particle.pos.y) {
     food.pos.x = random(width);
     food.pos.y = random(height);
   }
 
+  if (seeFood === (walls.length - 4)) {
+    particle.update(food.pos.x, food.pos.y);
+    g = 0;
+    b = 0;
+  } else {
+    particle.update(mouseX, mouseY);
+    g = 255;
+    b = 255;
+  }
+
+  particle.show(g,b);
+  particle.look(walls,g,b);
+
   food.show();
 
-  particle.show();
-  particle.look(walls);
 
   xoff += 0.01;
   yoff += 0.01;

@@ -57,16 +57,16 @@ class Particle {
   }
 
   // Displays particle on canvas
-  show(rayNum) {
+  show(g,b) {
     fill(255);
     ellipse(this.pos.x, this.pos.y, this.radius);
     for (let ray of this.rays) {
-      ray.show();
+      ray.show(g,b);
     }
   }
 
   // Draws rays from particle to boundaries
-  look(walls) {
+  look(walls,g,b) {
     for (let i = 0; i < this.rays.length; i++) {
       const ray = this.rays[i];
       let closest = null;
@@ -84,7 +84,7 @@ class Particle {
       if (closest) {
         // colorMode(HSB);
         // stroke((i + frameCount * 2) % 360, 255, 255, 50);
-        stroke(walls);
+        stroke(255,g,b);
         line(this.pos.x, this.pos.y, closest.x, closest.y);
       }
     }
