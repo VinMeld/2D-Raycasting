@@ -9,19 +9,11 @@ class Particle {
     }
   }
 
-  // Moving particle towards mouse
-  update() {
-    let dir = createVector().set(mouseX - this.pos.x, mouseY - this.pos.y);
+  // Moves particle towards mouse or food
+  update(x, y) {
+    let dir = createVector().set(x - this.pos.x, y - this.pos.y);
     this.vel.set(dir);
-    this.vel.limit(0.85);
-    this.pos.add(this.vel);
-  }
-
-  //|
-  updateFood(foodX, foodY) {
-    let dir = createVector().set(foodX - this.pos.x, foodY - this.pos.y);
-    this.vel.set(dir);
-    this.vel.limit(0.85);
+    this.vel.limit(2);
     this.pos.add(this.vel);
   }
 
@@ -30,38 +22,28 @@ class Particle {
     let radius = this.radius;
     let touching = false;
     let equation = Math.abs(this.pos.y - (wall.slope * this.pos.x + wall.intercept));
+
     if (equation < radius) {
       let domainCheck = false;
-      // Checking the domain
-      if (wall.a.x > wall.b.x) {
-        if (wall.a.x + radius > this.pos.x && this.pos.x > wall.b.x - radius) {
-          domainCheck = true;
-        }
-      } else {
-        if (wall.b.x + radius > this.pos.x && this.pos.x > wall.a.x - radius) {
-          domainCheck = true;
-        }
+
+      // Checks domain of boundary
+      if ((wall.a.x > wall.b.x) && (wall.a.x + radius > this.pos.x && this.pos.x > wall.b.x - radius)) {
+        domainCheck = true;
+      } else if (wall.b.x + radius > this.pos.x && this.pos.x > wall.a.x - radius) {
+        domainCheck = true;
       }
 
-      // Checking the range
+      // Checks range of boundary
       if (domainCheck) {
-        if (wall.a.y > wall.b.y) {
-          if (wall.a.y + radius > this.pos.y && this.pos.x > wall.b.y - radius) {
-            touching = true;
-          }
-        } else {
-          if (wall.b.y + radius > this.pos.y && this.pos.y > wall.a.y - radius) {
-            touching = true;
-          }
+        if ((wall.a.y > wall.b.y) && (wall.a.y + radius > this.pos.y && this.pos.x > wall.b.y - radius)) {
+          touching = true;
+        } else if (wall.b.y + radius > this.pos.y && this.pos.y > wall.a.y - radius) {
+          touching = true;
         }
       }
     }
 
-    if (touching) {
-      return true;
-    } else {
-      return false;
-    }
+    return (touching ? true : false);
   }
 
   // Increases particle size if touching boundary
@@ -75,16 +57,12 @@ class Particle {
   }
 
   // Displays particle on canvas
-  show(food) {
+  show() {
     fill(255);
     ellipse(this.pos.x, this.pos.y, this.radius);
     for (let ray of this.rays) {
       ray.show();
     }
-    fill(255, 0, 0);
-    text(Math.round(this.pos.x) + ", " + Math.round(this.pos.y), this.pos.x, this.pos.y + 20);
-    //noStroke();
-    line(food.pos.x + 5, food.pos.y + 5, this.pos.x, this.pos.y);
   }
 
   // Draws rays from particle to boundaries
