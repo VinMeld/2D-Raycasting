@@ -19,25 +19,24 @@ class Particle {
 
   // Determines if particle is touching a boundary
   touch(wall) {
-    let radius = this.radius;
     let touching = false;
     let equation = Math.abs(this.pos.y - (wall.slope * this.pos.x + wall.intercept));
 
-    if (equation < radius) {
+    if (equation < this.radius) {
       let domainCheck = false;
 
       // Checks domain of boundary
-      if ((wall.a.x > wall.b.x) && (wall.a.x + radius > this.pos.x && this.pos.x > wall.b.x - radius)) {
+      if ((wall.a.x > wall.b.x) && (wall.a.x + this.radius > this.pos.x && this.pos.x > wall.b.x - this.radius)) {
         domainCheck = true;
-      } else if (wall.b.x + radius > this.pos.x && this.pos.x > wall.a.x - radius) {
+      } else if (wall.b.x + this.radius > this.pos.x && this.pos.x > wall.a.x - this.radius) {
         domainCheck = true;
       }
 
       // Checks range of boundary
       if (domainCheck) {
-        if ((wall.a.y > wall.b.y) && (wall.a.y + radius > this.pos.y && this.pos.x > wall.b.y - radius)) {
+        if ((wall.a.y > wall.b.y) && (wall.a.y + this.radius > this.pos.y && this.pos.x > wall.b.y - this.radius)) {
           touching = true;
-        } else if (wall.b.y + radius > this.pos.y && this.pos.y > wall.a.y - radius) {
+        } else if (wall.b.y + this.radius > this.pos.y && this.pos.y > wall.a.y - this.radius) {
           touching = true;
         }
       }
@@ -57,16 +56,16 @@ class Particle {
   }
 
   // Displays particle on canvas
-  show(g,b) {
+  show(col) {
     fill(255);
     ellipse(this.pos.x, this.pos.y, this.radius);
     for (let ray of this.rays) {
-      ray.show(g,b);
+      ray.show(col);
     }
   }
 
   // Draws rays from particle to boundaries
-  look(walls,g,b) {
+  look(walls, col) {
     for (let i = 0; i < this.rays.length; i++) {
       const ray = this.rays[i];
       let closest = null;
@@ -82,9 +81,7 @@ class Particle {
         }
       }
       if (closest) {
-        // colorMode(HSB);
-        // stroke((i + frameCount * 2) % 360, 255, 255, 50);
-        stroke(255,g,b);
+        stroke(255, col, col, 100);
         line(this.pos.x, this.pos.y, closest.x, closest.y);
       }
     }

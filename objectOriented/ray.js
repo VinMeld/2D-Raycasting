@@ -10,8 +10,8 @@ class Ray {
     this.dir.normalize();
   }
 
-  show(g,b) {
-    stroke(255,g,b);
+  show(col) {
+    stroke(255, col, col);
     push();
     translate(this.pos.x, this.pos.y);
     line(0, 0, this.dir.x * 10, this.dir.y * 10);
