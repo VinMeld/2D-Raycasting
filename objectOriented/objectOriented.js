@@ -31,6 +31,7 @@ function draw() {
   let seeFood = 0;
 
   for (let i = 0; i < walls.length - 4; i++) {
+    particle.resize(walls[i]);
     if (!food.seeWall(particle, walls[i])) {
       seeFood++;
     } else {
