@@ -1,5 +1,5 @@
 // Declaring variables
-let walls = [], particle = [], food, col = 255;
+let walls = [], particle = [], food;
 
 // Setting up program and instances
 function setup() {
@@ -27,33 +27,10 @@ function draw() {
   for (let wall of walls) {
     wall.show();
   }
-
-  let seeFood = 0;
-
-  for (let i = 0; i < walls.length - 4; i++) {
-    particle.resize(walls[i]);
-    if (!food.seeWall(particle, walls[i])) {
-      seeFood++;
-    } else {
-      i += walls.length;
-    }
-  }
-
-  if (food.pos.x === particle.pos.x && food.pos.y === particle.pos.y) {
-    food.pos.x = random(width);
-    food.pos.y = random(height);
-  }
-
-  if (seeFood === (walls.length - 4)) {
-    particle.update(food.pos.x, food.pos.y);
-    col = 0;
-  } else {
-    particle.update(mouseX, mouseY);
-    col = 255;
-  }
-
-  particle.show(col);
-  particle.look(walls, col);
+  
+  particle.update(mouseX, mouseY);
+  particle.show();
+  particle.look(walls);
 
   food.show();
 }

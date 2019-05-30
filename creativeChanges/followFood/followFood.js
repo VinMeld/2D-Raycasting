@@ -1,5 +1,5 @@
 // Declaring variables
-let walls = [], particle = [], food, col = 255;
+let walls = [], particle = [], food, xoff = 0, yoff = 10000, col = 255;
 
 // Setting up program and instances
 function setup() {
@@ -31,7 +31,6 @@ function draw() {
   let seeFood = 0;
 
   for (let i = 0; i < walls.length - 4; i++) {
-    particle.resize(walls[i]);
     if (!food.seeWall(particle, walls[i])) {
       seeFood++;
     } else {
@@ -56,4 +55,8 @@ function draw() {
   particle.look(walls, col);
 
   food.show();
+
+
+  xoff += 0.01;
+  yoff += 0.01;
 }
