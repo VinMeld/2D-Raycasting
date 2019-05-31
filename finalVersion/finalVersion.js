@@ -1,3 +1,6 @@
+// Matteo Capitani, Michael Lam, Vinay Meldrum
+// Coding Challenge 145: 2D Raycasting
+
 // Declaring variables
 let walls = [], particle = [], food, col = 255;
 
