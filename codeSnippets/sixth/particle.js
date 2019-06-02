@@ -2,17 +2,13 @@ class Particle {
   constructor() {
     this.pos = createVector(width / 2, height / 2);
     this.rays = [];
-    this.vel = createVector(0,0);
-    for (let a = 0; a < 360; a += 12) {
+    for (let a = 0; a < 360; a += 1) {
       this.rays.push(new Ray(this.pos, radians(a)));
     }
   }
 
-  update() {
-    let dir = createVector().set(mouseX - this.pos.x, mouseY - this.pos.y);
-    this.vel.set(dir);
-    this.vel.limit(3);
-    this.pos.add(this.vel);
+  update(x, y) {
+    this.pos.set(x, y);
   }
 
   look(walls) {
@@ -31,9 +27,7 @@ class Particle {
         }
       }
       if (closest) {
-        // colorMode(HSB);
-        // stroke((i + frameCount * 2) % 360, 255, 255, 50);
-        stroke(255, 255, 255);
+        stroke(255, 100);
         line(this.pos.x, this.pos.y, closest.x, closest.y);
       }
     }
@@ -41,6 +35,7 @@ class Particle {
 
   show() {
     fill(255);
+    ellipse(this.pos.x, this.pos.y, 4);
     for (let ray of this.rays) {
       ray.show();
     }
