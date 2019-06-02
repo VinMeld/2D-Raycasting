@@ -1,5 +1,5 @@
 class Car {
-  // This is called a constructor. It is used to define attributes of the object.
+  // This is used to define attributes of the object.
   constructor(x, y, sizeX, sizeY, maxSpeed) {
     // Because the variables differ based on what was set for each car in classExample.js,
     // we use a temporary variable so that the value isn't constant across all cars.
@@ -18,7 +18,7 @@ class Car {
   display() {
     fill(255, 100, 100);
     // Car (rectangle) is drawn according to the attributes
-    // defined for the corresponding car in classExample.js
+    // defined for the corresponding car in classExample.js.
     rect(this.x, this.y, this.sizeX, this.sizeY);
   }
 }
