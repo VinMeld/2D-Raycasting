@@ -25,7 +25,7 @@ function draw() {
   }
   particle.update(mouseX, mouseY);
   particle.show();
-  particle.look(walls[0]);
+  particle.look(walls);
 
 
 }

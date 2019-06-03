@@ -17,10 +17,10 @@ function draw() {
   background(0);
   for (let wall of walls) {
     wall.show();
+    particle.look(wall);
   }
   particle.update(mouseX, mouseY);
   particle.show();
-  particle.look(walls[0]);
   //ray.show();
   //ray.lookAt(mouseX,mouseY);
   
