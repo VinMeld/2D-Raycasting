@@ -1,5 +1,5 @@
-let wall;
-let ray;
+let wall, ray;
+
 function setup() {
   createCanvas(400, 400);
   wall = new Boundary(300, 100, 300, 300);

@@ -1,6 +1,5 @@
-let walls = [];
-let ray;
-let particle;
+let walls = [], ray, particle;
+
 function setup() {
   createCanvas(400, 400);
   for (let i = 0; i < 5; i++) {

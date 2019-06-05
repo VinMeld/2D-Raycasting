@@ -1,6 +1,4 @@
-let walls = [];
-let ray;
-let particle;
+let walls = [], ray, particle;
 
 function setup() {
   createCanvas(400, 400);
@@ -26,6 +24,4 @@ function draw() {
   particle.update(mouseX, mouseY);
   particle.show();
   particle.look(walls);
-
-
 }

@@ -1,6 +1,5 @@
-let walls = [];
-let ray;
-let particle;
+let walls = [], ray, particle;
+
 function setup() {
   createCanvas(400, 400);
   for (let i = 0; i < 5; i++) {
@@ -21,12 +20,4 @@ function draw() {
   }
   particle.update(mouseX, mouseY);
   particle.show();
-  //ray.show();
-  //ray.lookAt(mouseX,mouseY);
-  
-  //let pt = ray.cast(wall);
-  //if(pt){
-  //  fill(255);
-  //  ellipse(pt.x,pt.y,8,8);
-  //}
 }
